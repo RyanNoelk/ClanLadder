@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+  
+{% block title %}Player History{% endblock %}
+      
+{% block extra_includes %}
+    {% load staticfiles %}
+    <script type="text/javascript" src="{% static 'common/js/Chart.js' %}"></script>
+{% endblock %}
+
+<!-- Jumbotron -->
+{% block jumbotron %}
+    <h1>Player History</h1>
+{% endblock %}
+
+{% block feature %}
+    <div style="width: 50%">
+        <canvas id="canvas" height="450" width="600"></canvas>
+    </div>
+    <div style="width:30%">
+        <div>
+            <canvas id="line_graph" height="450" width="600"></canvas>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <table class='Ladder_table' id='Ladder_table1'>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Map</th>
+                <th>Points</th>
+                <th>Winner(s)</th>
+                <th>Loser(s)</th>
+                <th>Date Played</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if Games %}
+                {% load staticfiles %}
+                {% for Game in Games %}
+                    <tr>
+                        <td>{{ Game.ID }}</td>
+                        <td>{{ Game.Map }}</td>
+                        <td>{{ Game.PointDiff }}</td>
+                        <td>
+                            {% if Game.Winners %}
+                                {% for Player in Game.Winners %}
+                                    <img src="{% static 'common/images/Flags/' %}{{ Player.Country }}" alt="{{ Player.Country }}">
+                                    <img src="{% static 'common/images/Races/' %}{{ Player.Race }}" alt="{{ Player.Race }}">
+                                    <font>{{ Player.Name }}</font>
+                                    <font>({{ Player.Points }})</font>
+                                    <br>
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if Game.Lossers %}
+                                {% for Player in Game.Lossers %}
+                                    <img src="{% static 'common/images/Races/' %}{{ Player.Race }}" alt="{{ Player.Race }}">
+                                    <img src="{% static 'common/images/Flags/' %}{{ Player.Country }}" alt="{{ Player.Country }}">
+                                    <font>{{ Player.Name }}</font>
+                                    <font>({{ Player.Points }})</font>
+                                    <br>
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+                        <td>{{ Game.Date }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+    
+    
+    <script>
+        var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
+
+        var barChartData = {
+            labels : ["January","February","March","April","May","June","July"],
+            datasets : [
+                {
+                    fillColor : "rgba(220,220,220,0.5)",
+                    strokeColor : "rgba(220,220,220,0.8)",
+                    highlightFill: "rgba(220,220,220,0.75)",
+                    highlightStroke: "rgba(220,220,220,1)",
+                    data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+                },
+                {
+                    fillColor : "rgba(151,187,205,0.5)",
+                    strokeColor : "rgba(151,187,205,0.8)",
+                    highlightFill : "rgba(151,187,205,0.75)",
+                    highlightStroke : "rgba(151,187,205,1)",
+                    data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+                }
+            ]
+
+        }
+        
+        var lineChartData = {
+            labels : ["January","February","March","April","May","June","July"],
+            datasets : [
+                {
+                    label: "My First dataset",
+                    fillColor : "rgba(220,220,220,0.2)",
+                    strokeColor : "rgba(220,220,220,1)",
+                    pointColor : "rgba(220,220,220,1)",
+                    pointStrokeColor : "#fff",
+                    pointHighlightFill : "#fff",
+                    pointHighlightStroke : "rgba(220,220,220,1)",
+                    data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+                },
+                {
+                    label: "My Second dataset",
+                    fillColor : "rgba(151,187,205,0.2)",
+                    strokeColor : "rgba(151,187,205,1)",
+                    pointColor : "rgba(151,187,205,1)",
+                    pointStrokeColor : "#fff",
+                    pointHighlightFill : "#fff",
+                    pointHighlightStroke : "rgba(151,187,205,1)",
+                    data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+                }
+            ]
+
+        }
+
+        window.onload = function(){
+            var ctx = document.getElementById("line_graph").getContext("2d");
+            window.myLine = new Chart(ctx).Line(lineChartData, {
+                responsive: true
+            });
+            var ctx = document.getElementById("canvas").getContext("2d");
+            window.myBar = new Chart(ctx).Bar(barChartData, {
+                responsive : true
+            });
+        }
+	</script>
+{% endblock %}

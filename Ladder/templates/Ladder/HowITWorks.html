@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+  
+{% block title %}How It Works{% endblock %}
+      
+<!-- Jumbotron -->
+{% block jumbotron %}
+    <h1>The Rules</h1>
+    <p class="lead">The rules for how the ladder works will be explained below. 
+            If you have any more questions please contact Adam "Stark" Griffiths on Skype, in the main chat. Please email allin.ladder@gmail.com with any bugs that you find!</p>
+{% endblock %}
+
+{% block feature %}
+{% endblock %}
+
+{% block content %}
+    <div class="panel panel-default">
+        <div class="panel-heading"><span class="bold">Establishing a few ground rules first.</span></div>
+        <div class="panel-body">
+            <ul>
+                <li>
+                    Only games between All-In members can be eligible. This includes 1v1s or teamgames.
+                </li>
+                <li>
+                    Please agree on putting the game on the ladder before you play. Any internal tournament games (Such as an All-Invitational game) are automatically valid for the ladder, as they are assumed to be played in a competitive environment. The usual submission rules apply here, see below. In the unlikely event that you run into another All-Inspiration member on the SC2 Matchmaking system, this can be assumed eligible for the internal ladder too.
+                </li>
+                <li>
+                    If you are playing individual games, please only submit your wins, not losses. If you are playing a Best-Of-X series, have the winner submit all games. This way we can avoid duplicate submissions. <span class="bold">Alternatively</span>, communicate with who you are playing with and decide on someone who will submit the games!
+                </li>
+                <li>
+                    If you are inactive for two weeks, your ladder stats will be hidden (NOT deleted). You just need to submit a new game, and your stats will reappear.
+                </li>
+                <li>
+                    <span class="bold">An example:</span>
+                    If we had a game between Sinistar and Stark, that would be laddered if both of them agreed to ladder it, and the winner uploaded the result.
+                </li>
+            </ul>
+        </div>
+    </div>
+            
+    <div class="panel panel-default">
+        <div class="panel-heading"><span class="bold">Scoring</span></div>
+        <div class="panel-body">
+            The scoring works as follows. Everyone starts off with 100 points. Once people
+            start playing, they'll begin to move around the table as more games are played, and will likely settle on an area. The points you receive will depend on the rank of
+            the player you defeat. Note that Team Games are scored slightly differently, but along a similar concept. The team's points are added up. A higher value team is worth
+            more points to a lower value team, and a lower value team is worth less points to a higher value team.<BR><BR>(A)Challenger Class:
+            200+....................Value of opponents: A: 6, B: 3, C: 3, D: 1,
+            E: 1, F: 1.<BR>(B)Veteran Class: 165-199...........Value of
+            opponents: A: 9, B: 6, C: 3, D:3, E: 1, F: 1.<BR>(C)Academy Class:
+            111-164..................Value of opponents: A: 12, B: 9, C: 6, D: 3,
+            E: 3, F: 1.<BR>New Players: 100..................Value of ALL
+            opponents: Winner gets 2, loser loses 2.<BR>(D)Recruit Class:
+            90-110.............Value of opponents: A: 15, B: 12, C: 9, D: 6, E:
+            3, F: 3.<BR>(E)Newbie Class: 80-89...........Value of opponents:
+            A: 18, B: 15, C: 12, D: 9, E: 6, F: 3.<BR>(F)Casual Class: 79
+            &amp; Under...........Value of opponents: A: 21, B: 18, C: 15, D: 12,
+            E: 9, F: 6.<BR><BR>The winner of a game is awarded the points given
+            in the 'Value of opponents' category that applies to their opponent's
+            rank, while the loser loses that same amount of points. <BR><BR>Example
+            1: You currently have 108 points and are thus ranked as a Recruit
+            (category D). You play, and beat another player who has 166 points
+            and is therefore ranked as a Veteran (category B). Hence, you gain 12
+            points for defeating the Veteran player, while they in fact lose 12
+            points for the loss. <BR><BR>Example 2: Newbie (E) loses to a
+            Casual (F): The Newbie loses 9 points, while the Casual gains 9 points. <BR><BR>Example 3: Academy (C) beats a New
+            Player: The Academy gains 2 points while the New Player loses 2
+            points.
+        </div>
+    </div>
+            
+    <div class="panel panel-default">
+        <div class="panel-heading"><span class="bold">The Champion</span></div>
+        <div class="panel-body">
+            Currently this is meaningless fun, we
+            will likely improve this. The only way a Champion can be replaced is
+            by defeating the current Champion regardless of who has the most
+            ladder points. It is possible for the Champion to have less ladder
+            points then other ladder players.
+        </div>
+    </div>
+            
+    <div class="panel panel-default">
+        <div class="panel-heading"><span class="bold">Earning Ladder Points as Champion</span></div>
+        <div class="panel-body">
+            The Champion will continue to earn points for wins
+            according to the category he is in, by the same point structure as
+            everyone else.
+        </div>
+    </div>
+            
+    <div class="panel panel-default">
+        <div class="panel-heading"><span class="bold">Defeating the Champion</span></div>
+        <div class="panel-body">
+            If the Champion is defeated then the player who defeated him replaces him as Champion.
+            The new Champion is awarded ladder points according to both players
+            categories for his victory over the old Champion, and the old
+            Champion loses points for his loss.
+        </div>
+    </div>
+            
+            
+    <div class="panel panel-default">
+        <div class="panel-heading"><span class="bold">No Activity from Champion</span></div>
+        <div class="panel-body">
+            If 2 weeks pass without the Champion having won a game,
+            the Champion is dethroned and the next player to win a game will be
+            the new Champion.
+        </div>
+    </div>
+{% endblock %}
+
+

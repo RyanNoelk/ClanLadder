@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block jumbotron %}
+    <h1>Login</h1>
+    <p class="lead">If you don't have an account, please email allin.ladder@gmail.com or contact Adam "Stark" Griffiths on Skype to gain access.</p>
+{% endblock %}
+
+{% block content %}    
+    <div class="panel panel-default">
+        <div class="panel-heading">Login</div>
+        <form class="form-signin" method="post" action="{{ app_path }}" role="form">{% csrf_token %}
+            {% if form.errors %}
+                <div class="panel-body">
+                <div class="alert alert-danger" role="alert">
+                    <b>Your username and password didn't match. Please try again. </b><br>
+                    Please email allin.ladder@gmail.com to create an account.</div>
+                </div>
+            {% endif %}
+            
+            <label for="Username" class="sr-only">Username</label>
+            <input type="text" id="Username" class="form-control"  name="username" placeholder="Username" required autofocus>
+            
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" id="inputPassword" class="form-control"  name="password" placeholder="Password" required>
+            
+            <br>
+            
+            <button class="btn btn-lg btn-primary btn-block" type="submit" value="Login">Sign in</button>
+            
+            <input type="hidden" name="next" value="{{ next }}" />
+        </form>
+    </div>
+    
+    <input type="hidden" name="next" value="{{ next }}" />
+{% endblock %}

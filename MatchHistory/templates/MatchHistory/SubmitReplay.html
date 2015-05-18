@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+  
+{% block title %}Submit A Game!{% endblock %}
+
+{% block extra_includes %}
+    {% load staticfiles %}
+    <script type="text/javascript" src="{% static 'MatchHistory/js/core.js' %}"></script>
+{% endblock %}
+
+<!-- Jumbotron -->
+{% block jumbotron %}
+    <h1>Submit A Game!</h1>
+    <p class="lead">Select the game you wish to add to the ladder from the text box below.</p>
+{% endblock %}
+
+{% block feature %}
+    <div class="panel panel-default">
+        <div class="panel-heading"><span class="bold">Selected Games</span></div>
+        <div class="panel-body">
+            {% if not_valid %}
+                <div id='no_replay_warning' class="alert alert-warning" role="alert">
+                    <strong>Warning!</strong>&nbsp;Please attach a valid SC2 Replay to submit.
+                </div>
+                <div id='bad_file_warning' class="alert alert-warning" role="alert" style='display:none;'>
+                    <strong>Warning!</strong>&nbsp;Only .SC2Replays files will be accepted, please remove all other files.
+                </div>
+            {% else %}
+                <div id='no_replay_warning' class="alert alert-warning" role="alert" style='display:none;'>
+                    <strong>Warning!</strong>&nbsp;Please attach a valid SC2 Replay to submit.
+                </div>
+                <div id='bad_file_warning' class="alert alert-warning" role="alert" style='display:none;'>
+                    <strong>Warning!</strong>&nbsp;Only .SC2Replays files will be accepted, please remove all other files.
+                </div>
+            {% endif %}
+            <form name="ReplayForm" action="{% url 'MatchHistory:SubmitText' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}        
+                <input id = 'file' class="file_btn" style="display:inline; width:600px;" type="file" name="file" multiple="" accept=".SC2Replay">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input class="btn" value="Submit Replay(s)" onclick='SubmitFormReplay();'>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+{% endblock %}

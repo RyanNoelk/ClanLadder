@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+  
+      
+<!-- Jumbotron -->
+{% block jumbotron %}
+    <h1>Season 2 Started!</h1>
+    <p class="lead">Click the Match Submission button at the top to attach replays you play with other All-Inspiration members!</p>
+{% endblock %}
+
+{% block feature %}
+<!-- Site Records/History -->
+<div class="bs-example">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading bold">Champion</div>
+                <div class="panel-body">
+                    {% if Champ %}
+                        <h4><font class='champ'>{{ Champ.Name }} - {{ Champ.Time.date }}</font></h4>
+                    {% endif %}
+                    <p>Ladder Champion of All-In</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading bold">Past 3 Games</div>
+                <div class="panel-body">
+                    {% if Pastgames %}
+                        {% load staticfiles %}
+                        <table class='display' id='Past_Games' cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Winner(s)</th>
+                                    <th>Loser(s)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for Game in Pastgames %}
+                                <tr>
+                                {% if Game.Winners %}
+                                    <td>
+                                        {% for Player in Game.Winners %}
+                                            <img src="{% static 'common/images/Races/' %}{{ Player.Race }}" alt="{{ Player.Race }}">
+                                            <img src="{% static 'common/images/Flags/' %}{{ Player.Country }}" alt="{{ Player.Country }}">
+                                            <font>{{ Player.Name }}</font>
+                                            <font>({{ Player.Points }})</font>
+                                            <br>
+                                        {% endfor %}
+                                    </td>
+                                {% endif %}
+                                {% if Game.Lossers %}
+                                    <td>
+                                        {% for Player in Game.Lossers %}
+                                            <img src="{% static 'common/images/Races/' %}{{ Player.Race }}" alt="{{ Player.Race }}">
+                                            <img src="{% static 'common/images/Flags/' %}{{ Player.Country }}" alt="{{ Player.Country }}">
+                                            <font>{{ Player.Name }}</font>
+                                            <font>({{ Player.Points }})</font>
+                                            <br>
+                                        {% endfor %}
+                                    </td>
+                                {% endif %}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                </div>
+            </div>
+            <!--<ul class="list-group">
+                <li class="list-group-item list-group-item-success">Dapibus ac facilisis in</li>
+                <li class="list-group-item list-group-item-info">Cras sit amet nibh libero</li>
+                <li class="list-group-item list-group-item-warning">Porta ac consectetur ac</li>
+                <li class="list-group-item list-group-item-danger">Vestibulum at eros</li>
+            </ul>-->
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+    <!-- Site Ladder -->
+    {% if League %}
+        {% for L in League %}
+            {% if L.Players %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                        <a href='#' id='{{ L.LeagueNumber }}_header' style='color:inherit;' 
+                            onClick='
+                                adv_toggle(
+                                    "{{ L.LeagueNumber }}_wrapper",
+                                    "{{ L.LeagueNumber }}_header",
+                                    "{{ L.LeagueName }}"); 
+                                return false;'>[-] {{ L.LeagueName }}
+                        </a>
+                        </h3>
+                    </div>
+                    <div class="panel-body" id='{{ L.LeagueNumber }}_wrapper'>
+                        <!-- Ladder_table for differnt sytle -->
+                        <table class='display' id='{{ L.LeagueNumber }}_data_table' cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Points</th>
+                                    <th>Name</th>
+                                    <th>Country</th>
+                                    <th>Race</th>
+                                    <th>Wins</th>
+                                    <th>Losses</th>
+                                    <th>Ratio</th>
+                                    <th>Streak</th>
+                                    <th>Last Game</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% load staticfiles %}
+                                {% for Player in L.Players %}
+                                    <tr>
+                                        <td>{{ Player.Points }}</td>
+                                        <td><font class='{{ Player.ChampStatus }}'>{{ Player.Name }}</font></td>
+                                        <td><img src="{% static 'common/images/Flags/' %}{{ Player.Country }}" alt="{{ Player.Country }}"></td>
+                                        <td><img src="{% static 'common/images/Races/' %}{{ Player.Race }}" alt="{{ Player.Race }}"></td>
+                                        <td>{{ Player.Wins }}</td>
+                                        <td>{{ Player.Losses }}</td>
+                                        <td>{{ Player.Ratio }}</td>
+                                        <td>{{ Player.Streak }}</td>
+                                        <td>{{ Player.LastUpdate }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% else %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                        <a href='#' id='{{ L.LeagueNumber }}_header' style='color:inherit;' 
+                            onClick='
+                                adv_toggle(
+                                    "{{ L.LeagueNumber }}_wrapper",
+                                    "{{ L.LeagueNumber }}_header",
+                                    "{{ L.LeagueName }}"); 
+                                return false;'>[+] {{ L.LeagueName }}
+                        </a>
+                        </h3>
+                    </div>
+                     <div class="panel-body" id='{{ L.LeagueNumber }}_wrapper' style='display:none; text-align: center;'>
+                         No one is in this league!
+                        <!--Ladder_table for differnt sytle
+                        <table class='table' id='{{ L.LeagueNumber }}_data'>
+                            <thead>
+                                <tr>
+                                    <th>Points</th>
+                                    <th>Name</th>
+                                    <th>Country</th>
+                                    <th>Race</th>
+                                    <th>Wins</th>
+                                    <th>Losses</th>
+                                    <th>Ratio</th>
+                                    <th>Streak</th>
+                                    <th>Last Game</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan='9' style='text-align:center;'>No one is in this league!</td>
+                                </tr>
+                            </tbody>
+                        </table>-->
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,133 @@
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <title>{% block title %}All-In Ladder{% endblock %}</title>
+    
+    {% load staticfiles %}
+    {% block includes %}
+    <link rel="shortcut icon" type="image/png" href="{% static 'common/images/allinfavicon.png' %}"/>
+    
+    <!-- Bootstrap/DataTable core -->
+    <link href="{% static 'common/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'common/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+
+    <script type="text/javascript" src="{% static 'common/js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'common/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'common/js/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'common/js/alt-string.js' %}"></script>
+    <script type="text/javascript" src="{% static 'common/js/ladder.js' %}"></script>
+
+    <script src="//cdn.datatables.net/responsive/1.0.5/js/dataTables.responsive.js"></script>
+    <link href="{% static 'common/css/dataTables.responsive.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'common/css/justified-nav.css' %}" rel="stylesheet">
+    {% endblock %}
+    {% block extra_includes %}
+    {% endblock %}
+</head>
+
+{% block background %}
+<body style="background-image:url({% static 'common/images/allinbackground.jpg' %});">
+{% endblock %}
+    {% block menu %}
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">All-In Team Ladder</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Match Submission <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/Matches/SubmitReplay/">Replay</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/Matches/SubmitText/">Text Based</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/Matches/">Match History</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Past Seasons <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="http://season1.ryannoelk.com">Season 1</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/">Current</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">About <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/HowITWorks/">How It Works</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/Contact/">Contact</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if user.is_authenticated %}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Welcome, {{ user.get_username }} <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                <li><a href="/Accounts/password/change/">Change Password</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/Accounts/Logout/">Logout</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Welcome, Guest <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                <li><a href="/Accounts/login/?next={{ request.get_full_path }}">Login</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/Contact/">Sign Up</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>  
+    {% endblock %}
+    <div class="container">
+        <!-- Jumbotron -->
+        <div class="jumbotron">
+            {% block jumbotron %}
+            {% endblock %}
+        </div>
+  
+        <div class="body-content">
+            {% block feature %}
+            {% endblock %}
+        </div>
+        
+        {% block content %}
+        {% endblock %}
+    </div>
+      
+    {% block footer %}
+    <!-- Site footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted" style="text-align:center;">Please email allin.ladder@gmail.com with any comments, questions, or bugs.</p>
+            <p class="text-muted" style="text-align:center;">&copy; Ryan Noelk 2015</p>
+        </div>
+    </footer>
+    {% endblock %}
+
+    {% block init %}{% endblock %}
+
+</body>
+</html>
+

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+  
+{% block title %}Match History{% endblock %}
+      
+<!-- Jumbotron -->
+{% block jumbotron %}
+    <h1>Match History</h1>
+        <p class="lead">The complete match history and record of all matches.</p>
+{% endblock %}
+
+{% block feature %}
+{% endblock %}
+{% block content %}
+    <div class="panel panel-default">
+        <div class="panel-heading"><span class="bold">Match History</span></div>
+        <div class="panel-body">
+            <table class='display' id='Ladder_table1'>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Map</th>
+                        <th>Points</th>
+                        <th>Winner(s)</th>
+                        <th>Loser(s)</th>
+                        <th>Date Played</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if Games %}
+                        {% load staticfiles %}
+                        {% for Game in Games %}
+                            <tr>
+                                <td>{{ Game.ID }}</td>
+                                <td>{{ Game.Map }}</td>
+                                <td>{{ Game.PointDiff }}</td>
+                                <td>
+                                    {% if Game.Winners %}
+                                        {% for Player in Game.Winners %}
+                                            <img src="{% static 'common/images/Races/' %}{{ Player.Race }}" alt="{{ Player.Race }}">
+                                            <img src="{% static 'common/images/Flags/' %}{{ Player.Country }}" alt="{{ Player.Country }}">
+                                            <font>{{ Player.Name }}</font>
+                                            <font>({{ Player.Points }})</font>
+                                            <br>
+                                        {% endfor %}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if Game.Lossers %}
+                                        {% for Player in Game.Lossers %}
+                                            <img src="{% static 'common/images/Races/' %}{{ Player.Race }}" alt="{{ Player.Race }}">
+                                            <img src="{% static 'common/images/Flags/' %}{{ Player.Country }}" alt="{{ Player.Country }}">
+                                            <font>{{ Player.Name }}</font>
+                                            <font>({{ Player.Points }})</font>
+                                            <br>
+                                        {% endfor %}
+                                    {% endif %}
+                                </td>
+                                <td>{{ Game.Date }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+  
+{% block title %}Please Confirm{% endblock %}
+      
+{% block extra_includes %}
+    {% load staticfiles %}
+    <script type="text/javascript" src="{% static 'django_ajax/js/jquery.ajax.js' %}"></script>
+    <script type="text/javascript" src="{% static 'django_ajax/js/jquery.ajax-plugin.js' %}"></script>
+    <script type="text/javascript" src="{% static 'MatchHistory/js/core.js' %}"></script>
+    <script type="text/javascript" src="{% static 'MatchHistory/js/options.js' %}"></script>
+{% endblock %}
+
+<!-- Jumbotron -->
+{% block jumbotron %}
+    <h1>Please Confirm!</h1>
+    <p class="lead">Below is the results for the replay u submitted. If this is correct, click submit to add the game to the ladder.</p>
+{% endblock %}
+
+{% block feature %}
+<form action="{% url 'MatchHistory:Update' %}" method="POST" name='TextForm' id='TextForm'>
+    {% csrf_token %}
+    {% load staticfiles %}
+
+    <div class="panel panel-default">
+        <div class="panel-heading bold">New Matchs</div>
+        <div class="panel-body">
+    
+            {% if Duplicate %}
+                <div class="alert alert-danger" role="alert">
+                    <strong>Warning!</strong>&nbsp;You have already submitted this game. Are you sure you would like to submit it again?
+                </div>
+            {% endif %}
+            
+            {% if valid %}
+                <div id='form_text_warning' class="alert alert-warning" role="alert">
+                    <strong>Warning!</strong>&nbsp;Please check the form below for missing values.
+                </div>
+            {% else %}
+                <div id='form_text_warning' class="alert alert-warning" role="alert" style='display:none;'>
+                    <strong>Warning!</strong>&nbsp;Please check the form below for missing values.
+                </div>
+            {% endif %}
+            
+            <a style='float:right;padding-right:5px;' title='Delete Select Job(s)' href = '#' onclick='DeleteRow(); return false;'>
+                <img class='image_boarder' title='Delete Select Job(s)' src="{% static 'common/images/trash.png' %}" height='28' width='28'></img>
+            </a><br>
+        
+            <table class='dataTable display' id='Manual_Match'>
+                <thead>
+                    <tr>    
+                        <th style="width :2%;">#</th>
+                        <th style="width :10%;">Type</th>
+                        <th style="width :28%;">Map</th>
+                        <th style="width :28%;">Winners</th>
+                        <th style="width :28%;">Losers</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if games %}
+                        {% for game in games%}
+                            <tr id = "{{ forloop.counter }}">
+                                <td><input type="checkbox" id="{{ forloop.counter }}"/></td>
+                                <td>
+                                    {% if game.winners|length == 1 %}
+                                        <input type="hidden" value="1v1">
+                                    {% endif %}
+                                    {% if game.winners|length == 2 %}
+                                        <input type="hidden" value="2v2">
+                                    {% endif %}
+                                    {% if game.winners|length == 3 %}
+                                        <input type="hidden" value="3v3">
+                                    {% endif %}
+                                    {% if game.winners|length == 4 %}
+                                        <input type="hidden" value="4v4">
+                                    {% endif %}
+                                    <font>Replay</font>
+                                </td>
+                                <td>
+                                    <input type="hidden" name="{{ forloop.counter }}.map" value="{{ game.map }}">
+                                    <input type="hidden" class="match_submit" name="{{ forloop.counter }}.timestamp" value="{{ game.datetimestamp }}">
+                                    <font>{{ game.map }}</font>
+                                </td>
+    
+                                <td id="{{ forloop.counter }}winners">
+                                    {% for Player in game.winners %} 
+                                        <img src="{% static 'common/images/Flags/' %}{{ Player.country }}" alt="{{ Player.country }}">
+                                        <img src="{% static 'common/images/Races/' %}{{ Player.race }}" alt="{{ Player.race }}">
+                                        <font>{{ Player.name }}</font>
+                                        <br>
+                                        
+                                        <input type="hidden" name="{{ forloop.parentloop.counter }}.winners.{{ forloop.counter }}.old_name" value="{{ Player.name }}"></input>
+
+                                        <input type="hidden" 
+                                        name="{{ forloop.parentloop.counter }}.winners.{{ forloop.counter }}.race" 
+                                        value="{{ Player.race }}"></input>
+
+                                        <input type="hidden" 
+                                        name="{{ forloop.parentloop.counter }}.winners.{{ forloop.counter }}.country" 
+                                        value="{{ Player.country }}"></input>
+                                    {% endfor %}
+                                </td>
+                                <td id="{{ forloop.counter }}losers">
+                                    {% for Player in game.lossers %} 
+                                        <img src="{% static 'common/images/Flags/' %}{{ Player.country }}" alt="{{ Player.country }}">
+                                        <img src="{% static 'common/images/Races/' %}{{ Player.race }}" alt="{{ Player.race }}">
+                                        <font>{{ Player.name }}</font>
+                                        <br>
+                                        
+                                        <input type="hidden" name="{{ forloop.parentloop.counter }}.losers.{{ forloop.counter }}.old_name" value="{{ Player.name }}"></input>
+
+                                        <input type="hidden" 
+                                        name="{{ forloop.parentloop.counter }}.losers.{{ forloop.counter }}.race" 
+                                        value="{{ Player.race }}"></input>
+
+                                        <input type="hidden" 
+                                        name="{{ forloop.parentloop.counter }}.losers.{{ forloop.counter }}.country" 
+                                        value="{{ Player.country }}"></input>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>    
+            <a style = "float:left;font-size:11px;font-weight:normal;color:#444444;margin-right:4px;margin-top:4px;" href = "#" onclick="addNewRow(); return false;">[+] Add Match</a>
+            <br><br>
+            <input class="btn" value="Submit" onclick='SubmitFormText();'>
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+{% block content %}
+    {% if not games %}
+        <script>
+            window.onload = function() {
+              addNewRow();
+            };
+        </script>
+    {% endif %}
+    <input type="hidden" id="qty" value="1000" />
+{% endblock %}
